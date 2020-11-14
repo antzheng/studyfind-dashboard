@@ -1,0 +1,291 @@
+// ------------------------------------------------------------------
+// --------------------------- ui library ---------------------------
+// ------------------------------------------------------------------
+
+@import "~antd/dist/antd";
+
+// -------------------------------------------------------------------
+// --------------------------- apple fonts ---------------------------
+// -------------------------------------------------------------------
+
+@font-face {
+  font-family: Semibold;
+  src: url(./../assets/fonts/Semibold.otf);
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: Bold;
+  src: url(./../assets/fonts/Bold.otf);
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: Regular;
+  src: url(./../assets/fonts/Regular.otf);
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: RegularItalic;
+  src: url(./../assets/fonts/RegularItalic.otf);
+  font-weight: normal;
+  font-style: italic;
+}
+
+// ------------------------------------------------------------------
+// ----------------------------- mixins -----------------------------
+// ------------------------------------------------------------------
+
+@mixin transform($property) {
+  -webkit-transform: $property;
+  -moz-transform: $property;
+  -o-transform: $property;
+  -ms-transform: $property;
+  transform: $property;
+}
+
+// ------------------------------------------------------------------
+// ----------------------------- global -----------------------------
+// ------------------------------------------------------------------
+
+:root {
+  --navbar-items-opacity: 0.8;
+  --navbar-items-individual-padding: 15px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Avenir", "Helvetica", sans-serif;
+  font-size: 18px;
+}
+
+.ultra {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+
+// ------------------------------------------------------------------
+// ---------------------------- HomePage ----------------------------
+// ------------------------------------------------------------------
+
+.homepage-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding-bottom: 100px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .homepage-studyfind-logo {
+    width: 150px;
+    height: auto;
+  }
+
+  .homepage-app-name {
+    margin: 20px 0;
+    h1 {
+      margin: 0;
+      font-size: 225%;
+      text-align: center;
+      white-space: nowrap;
+    }
+  }
+
+  .homepage-searchbar-div {
+    width: 100%;
+    max-width: 600px;
+    padding: 0 25px;
+    margin: 0 auto 25px auto;
+
+    .homepage-searchbar-input {
+      border-radius: 25px;
+      height: 50px;
+    }
+  }
+
+  .homepage-search-button {
+    width: 100px;
+    height: 40px;
+    border-radius: 2px;
+  }
+}
+
+// ----------------------------- Navbar -----------------------------
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  z-index: 2000;
+  display: flex;
+  transition: 0.3s;
+}
+
+.navbar-about {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  h3 {
+    margin: 0;
+    text-align: center;
+  }
+}
+
+.navbar-items {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0px 15px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-space {
+  flex-grow: 1;
+}
+
+.navbar-mode {
+  opacity: var(--navbar-items-opacity);
+  padding: var(--navbar-items-individual-padding);
+}
+
+// ------------------------------ Menu ------------------------------
+
+// menu icon styling
+.hamburger {
+  --hamburger-menu-width: 24px;
+  --hamburger-menu-height: 19px;
+
+  z-index: 10;
+
+  .hamburger-inner,
+  .hamburger-inner::before,
+  .hamburger-inner::after {
+    background-color: black;
+  }
+
+  padding: 15px;
+  transition-duration: 0.15s;
+  transition-timing-function: ease;
+  opacity: 0.8;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  .hamburger-box {
+    width: var(--hamburger-menu-width);
+    height: var(--hamburger-menu-height);
+    display: flex;
+    position: relative;
+  }
+
+  .hamburger-inner {
+    display: block;
+    top: 50%;
+    margin-top: -2px;
+
+    &::before,
+    &::after {
+      content: "";
+      display: block;
+    }
+
+    &::before {
+      top: -8px;
+    }
+
+    &::after {
+      bottom: -8px;
+    }
+  }
+
+  .hamburger-inner,
+  .hamburger-inner::before,
+  .hamburger-inner::after {
+    width: var(--hamburger-menu-width);
+    height: 3px;
+    border-radius: 4px;
+    position: absolute;
+    transition-property: transform;
+    transition-duration: 0.15s;
+    transition-timing-function: ease;
+  }
+}
+
+// menu animation styling
+.hamburger--squeeze {
+  .hamburger-inner {
+    transition-duration: 0.075s;
+    transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+
+    &::before {
+      transition: top 0.075s 0.12s ease, opacity 0.075s ease;
+    }
+
+    &::after {
+      transition: bottom 0.075s 0.12s ease,
+        transform 0.075s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+  }
+
+  &.is-active {
+    .hamburger-inner {
+      transform: rotate(45deg);
+      transition-delay: 0.12s;
+      transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+      &::before {
+        top: 0;
+        opacity: 0;
+        transition: top 0.075s ease, opacity 0.075s 0.12s ease;
+      }
+
+      &::after {
+        bottom: 0;
+        transform: rotate(-90deg);
+        transition: bottom 0.075s ease,
+          transform 0.075s 0.12s cubic-bezier(0.215, 0.61, 0.355, 1);
+      }
+    }
+  }
+}
+
+// actual menu screen
+.slide-in-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  height: 100vh;
+  width: 100vw;
+  transition: 0.3s;
+  background-color: #54e2af;
+}
+
+// -------------------------------------------------------------------
+// --------------------------- media rules ---------------------------
+// -------------------------------------------------------------------
+
+@media only screen and (max-height: 550px) {
+  .homepage-studyfind-logo {
+    display: none;
+  }
+}
