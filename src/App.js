@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import HomePage from "./views/HomePage";
 import { getFullStudies, getKeywordsFromStudies } from "./resources/utils/api";
 import "./styles/css/App.scss";
@@ -26,9 +27,18 @@ const App = () => {
   // ------------------------------------------------------------------
 
   return (
-    <div className="ultra">
-      <HomePage keywords={keywords} />
-    </div>
+    <HashRouter basename="/">
+      <Switch>
+        <div className="ultra">
+          <Route
+            exact
+            path="/"
+            component={() => <HomePage keywords={keywords} />}
+          />
+        </div>
+        <Redirect to="/" />
+      </Switch>
+    </HashRouter>
   );
 };
 
