@@ -1,10 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./../components/HomePage/Navbar";
-import { Input, Button } from "antd";
+import { Input, Button, AutoComplete } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import StudyFindLogo from "./../styles/assets/images/studyfind.png";
 
-const HomePage = () => {
+const HomePage = (props) => {
+  // -------------------------------------------------------------------
+  // ------------------------------ state ------------------------------
+  // -------------------------------------------------------------------
+
+  const [options, setOptions] = useState([]);
+
+  // ------------------------------------------------------------------
+  // --------------------------- life-cycle ---------------------------
+  // ------------------------------------------------------------------
+
+  // only update full options if keywords ever change
+  useEffect(() => {
+    setOptions(props.keywords.map((word) => ({ value: word })));
+  }, [props.keywords]);
+
+  // ------------------------------------------------------------------
+  // ---------------------------- handlers ----------------------------
+  // ------------------------------------------------------------------
+
+  const filterOptions = (input, option) => {
+    return option.value.startsWith(input.toLowerCase());
+  };
+
+  // ------------------------------------------------------------------
+  // ----------------------------- render -----------------------------
+  // ------------------------------------------------------------------
+
   return (
     <>
       <Navbar />
@@ -18,11 +45,17 @@ const HomePage = () => {
           <h1>StudyFind Dashboard</h1>
         </div>
         <div className="homepage-searchbar-div">
-          <Input
+          <AutoComplete
             className="homepage-searchbar-input"
-            prefix={<SearchOutlined />}
-            size="large"
-          />
+            options={options}
+            filterOption={filterOptions}
+          >
+            <Input
+              style={{ borderRadius: "50px", height: "50px" }}
+              prefix={<SearchOutlined />}
+              size="large"
+            />
+          </AutoComplete>
         </div>
         <Button className="homepage-search-button" type="primary">
           Search
