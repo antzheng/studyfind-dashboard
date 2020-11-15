@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button, AutoComplete } from "antd";
+import { Input, AutoComplete } from "antd";
 import { useHistory } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
 
@@ -39,29 +39,28 @@ const Searchbar = (props) => {
 
   return (
     <>
-      <div className="homepage-searchbar-div">
+      <div className="searchpage-searchbar-div">
         <AutoComplete
-          className="homepage-searchbar-input"
+          className="searchpage-searchbar-input"
           options={options}
           filterOption={filterOptions}
+          defaultValue={props.searchTerms}
           dropdownClassName="searchbar-autocomplete-dropdown"
         >
           <Input
             ref={searchbar}
             style={{ borderRadius: "50px", height: "50px" }}
-            prefix={<SearchOutlined />}
+            suffix={
+              <SearchOutlined
+                className="searchpage-searchbar-icon"
+                onClick={(event) => enterSearch(event)}
+              />
+            }
             size="large"
             onPressEnter={(event) => enterSearch(event)}
           />
         </AutoComplete>
       </div>
-      <Button
-        className="homepage-search-button"
-        type="primary"
-        onClick={(event) => enterSearch(event)}
-      >
-        Search
-      </Button>
     </>
   );
 };

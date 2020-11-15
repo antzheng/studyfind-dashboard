@@ -50,11 +50,6 @@
 // ----------------------------- global -----------------------------
 // ------------------------------------------------------------------
 
-:root {
-  --navbar-items-opacity: 0.8;
-  --navbar-items-individual-padding: 15px;
-}
-
 html {
   scroll-behavior: smooth;
 }
@@ -79,7 +74,7 @@ body {
   width: 100%;
   height: 100%;
   display: flex;
-  padding-bottom: 100px;
+  padding-bottom: 75px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -117,6 +112,12 @@ body {
   }
 }
 
+// ---------------------------- Searchbar ----------------------------
+
+.searchbar-autocomplete-dropdown {
+  z-index: 3000;
+}
+
 // ----------------------------- Navbar -----------------------------
 
 .navbar {
@@ -140,6 +141,11 @@ body {
     cursor: pointer;
   }
 
+  img {
+    width: 40px;
+    height: auto;
+  }
+
   h3 {
     margin: 0;
     text-align: center;
@@ -157,11 +163,6 @@ body {
 
 .navbar-space {
   flex-grow: 1;
-}
-
-.navbar-mode {
-  opacity: var(--navbar-items-opacity);
-  padding: var(--navbar-items-individual-padding);
 }
 
 // ------------------------------ Menu ------------------------------
@@ -279,12 +280,209 @@ body {
   background-color: #54e2af;
 }
 
+// ------------------------------------------------------------------
+// --------------------------- SearchPage ---------------------------
+// ------------------------------------------------------------------
+
+// navbar
+.searchpage-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  z-index: 2000;
+  display: flex;
+  transition: 0.3s;
+
+  h2 {
+    margin: 0 12px 0 0;
+    text-align: center;
+    display: none;
+  }
+}
+
+.searchpage-navbar-about {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  img {
+    width: 40px;
+    height: auto;
+  }
+}
+
+.searchpage-navbar-items {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0px 15px;
+  display: flex;
+  align-items: center;
+}
+
+.searchpage-navbar-space-before {
+  display: none;
+  flex-grow: 1;
+}
+
+.searchpage-navbar-space-after {
+  flex-grow: 1;
+}
+
+.searchpage-searchbar-div {
+  width: 100%;
+  max-width: 700px;
+  padding: 0 25px;
+
+  .searchpage-searchbar-input {
+    width: 100%;
+
+    .searchpage-searchbar-icon {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+// results
+.searchpage-results-container {
+  width: 100%;
+  height: 100%;
+
+  .searchpage-results-items {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0px 122px;
+    align-items: center;
+  }
+
+  .searchpage-results-navbar-covering {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 132px;
+    width: 100%;
+    border-bottom: 1px solid #ebebeb;
+    background-color: white;
+  }
+
+  .searchpage-results-space-above {
+    width: 100%;
+    height: 112px;
+  }
+
+  .searchpage-results-buttons {
+    top: 85px;
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+    z-index: 1500;
+  }
+
+  .searchpage-results-card {
+    margin-top: 35px;
+    max-width: 600px;
+    border-radius: 5px;
+    padding: 10px 20px;
+
+    h3 {
+      color: #3f8ff7;
+      margin: 0;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+}
+
 // -------------------------------------------------------------------
 // --------------------------- media rules ---------------------------
 // -------------------------------------------------------------------
 
+// when screen height reachs 550px and below
 @media only screen and (max-height: 550px) {
+  // logo disappears if no space
   .homepage-studyfind-logo {
     display: none;
+  }
+}
+
+// when screen width reachs 600px and below
+@media only screen and (max-width: 600px) {
+  // font gets smaller
+  body {
+    font-size: 16px;
+  }
+
+  // logo and name should scale with width
+  .homepage-wrapper {
+    .homepage-studyfind-logo {
+      width: 30vw;
+    }
+
+    .homepage-app-name {
+      h1 {
+        font-size: 7vw;
+      }
+    }
+  }
+}
+
+// when screen width reachs 768px and below (ipads and below)
+@media only screen and (max-width: 768px) {
+  // change navbar from horizontal website layout to vertical mobile layout
+  .searchpage-navbar {
+    h2 {
+      display: block;
+    }
+
+    .searchpage-navbar-items {
+      flex-wrap: wrap;
+    }
+
+    .searchpage-navbar-space-before {
+      display: block;
+    }
+
+    .searchpage-searchbar-div {
+      order: 1;
+      max-width: 1200px;
+      padding: 0;
+    }
+  }
+
+  // change placement of filter and visualize buttons
+  .searchpage-results-container {
+    .searchpage-results-items {
+      padding: 0px 25px;
+    }
+
+    .searchpage-results-buttons {
+      top: 138px;
+    }
+
+    .searchpage-results-space-above {
+      height: 165px;
+    }
+
+    .searchpage-results-navbar-covering {
+      height: 185px;
+    }
+
+    .searchpage-results-card {
+      max-width: 768px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
   }
 }
