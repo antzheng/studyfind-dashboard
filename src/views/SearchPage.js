@@ -6,7 +6,7 @@ import {
   splitStudiesIntoPages,
 } from "./../resources/utils/api";
 
-const SearchPage = (props) => {
+const SearchPage = ({ studies, keywords, searchTerms, pageNumber }) => {
   // -------------------------------------------------------------------
   // ------------------------------ state ------------------------------
   // -------------------------------------------------------------------
@@ -20,13 +20,10 @@ const SearchPage = (props) => {
   // only update results list if searchTerms ever change
   useEffect(() => {
     const resultsPerPage = 5;
-    const relatedStudies = getStudiesFromSearch(
-      props.studies,
-      props.searchTerms
-    );
+    const relatedStudies = getStudiesFromSearch(studies, searchTerms.trim());
     const splitStudies = splitStudiesIntoPages(relatedStudies, resultsPerPage);
     setResults(splitStudies);
-  }, [props.searchTerms, props.studies]);
+  }, [searchTerms, studies]);
 
   // ------------------------------------------------------------------
   // ---------------------------- handlers ----------------------------
@@ -40,8 +37,8 @@ const SearchPage = (props) => {
 
   return (
     <>
-      <Navbar keywords={props.keywords} searchTerms={props.searchTerms} />
-      <Results results={results} pageNumber={props.pageNumber} />
+      <Navbar keywords={keywords} searchTerms={searchTerms.trim()} />
+      <Results results={results} pageNumber={pageNumber} />
     </>
   );
 };

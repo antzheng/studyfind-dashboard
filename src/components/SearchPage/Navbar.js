@@ -1,10 +1,10 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import Searchbar from "./Searchbar";
 import Menu from "./Menu";
-import { useHistory } from "react-router-dom";
 import StudyFindLogo from "./../../styles/assets/images/studyfind.png";
 
-const Navbar = (props) => {
+const Navbar = ({ keywords, searchTerms }) => {
   // -------------------------------------------------------------------
   // ------------------------------ state ------------------------------
   // -------------------------------------------------------------------
@@ -29,7 +29,7 @@ const Navbar = (props) => {
         </div>
         <div className="searchpage-navbar-space-before" />
         <h2>StudyFind</h2>
-        <Searchbar keywords={props.keywords} searchTerms={props.searchTerms} />
+        <Searchbar keywords={keywords} searchTerms={searchTerms} />
         <div className="searchpage-navbar-space-after" />
         <Menu />
       </div>

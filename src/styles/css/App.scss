@@ -404,6 +404,25 @@ body {
       white-space: nowrap;
     }
   }
+
+  .searchpage-footer {
+    margin-top: 35px;
+    max-width: 600px;
+    height: 100px;
+    padding: 10px 20px 50px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    img {
+      width: 40px;
+      height: auto;
+    }
+
+    .highlighted {
+      color: black;
+    }
+  }
 }
 
 // -------------------------------------------------------------------
@@ -483,6 +502,10 @@ body {
     .searchpage-results-card {
       max-width: 768px;
       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+
+    .searchpage-footer {
+      max-width: 768px;
     }
   }
 }

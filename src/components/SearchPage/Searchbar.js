@@ -3,7 +3,7 @@ import { Input, AutoComplete } from "antd";
 import { useHistory } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
 
-const Searchbar = (props) => {
+const Searchbar = ({ keywords, searchTerms }) => {
   // -------------------------------------------------------------------
   // ------------------------------ state ------------------------------
   // -------------------------------------------------------------------
@@ -11,6 +11,7 @@ const Searchbar = (props) => {
   const searchbar = React.createRef();
   const history = useHistory();
   const [options, setOptions] = useState([]);
+  const [isFocused, setIsFocused] = useState(false);
 
   // ------------------------------------------------------------------
   // --------------------------- life-cycle ---------------------------
@@ -18,19 +19,20 @@ const Searchbar = (props) => {
 
   // only update full options if keywords ever change
   useEffect(() => {
-    setOptions(props.keywords.map((word) => ({ value: word })));
-  }, [props.keywords]);
+    setOptions(keywords.map((word) => ({ value: word })));
+  }, [keywords]);
 
   // ------------------------------------------------------------------
   // ---------------------------- handlers ----------------------------
   // ------------------------------------------------------------------
 
   const filterOptions = (input, option) => {
-    return option.value.startsWith(input.toLowerCase());
+    return option.value.startsWith(input.toLowerCase().trim());
   };
 
-  const enterSearch = (event) => {
-    history.push(`/search/${searchbar.current.state.value}/page/1`);
+  const enterSearch = () => {
+    const search = searchbar.current.state.value.trim();
+    if (search) history.push(`/search/${search}/page/1`);
   };
 
   // ------------------------------------------------------------------
@@ -44,20 +46,22 @@ const Searchbar = (props) => {
           className="searchpage-searchbar-input"
           options={options}
           filterOption={filterOptions}
-          defaultValue={props.searchTerms}
+          defaultValue={searchTerms}
           dropdownClassName="searchbar-autocomplete-dropdown"
         >
           <Input
             ref={searchbar}
-            style={{ borderRadius: "50px", height: "50px" }}
+            style={{ borderRadius: isFocused ? "0px" : "50px", height: "50px" }}
+            size="large"
+            onPressEnter={(event) => enterSearch(event)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
             suffix={
               <SearchOutlined
                 className="searchpage-searchbar-icon"
                 onClick={(event) => enterSearch(event)}
               />
             }
-            size="large"
-            onPressEnter={(event) => enterSearch(event)}
           />
         </AutoComplete>
       </div>
