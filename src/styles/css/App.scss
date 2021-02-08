@@ -405,6 +405,13 @@ body {
     }
   }
 
+  .searchpage-spinner {
+    margin-top: 35px;
+    max-width: 600px;
+    border-radius: 5px;
+    padding: 10px 20px;
+  }
+
   .searchpage-footer {
     margin-top: 35px;
     max-width: 600px;
@@ -417,10 +424,6 @@ body {
     img {
       width: 40px;
       height: auto;
-    }
-
-    .highlighted {
-      color: black;
     }
   }
 }

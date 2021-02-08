@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import HomePage from "./views/HomePage";
 import SearchPage from "./views/SearchPage";
-import { getFullStudies, getKeywordsFromStudies } from "./resources/utils/api";
+import { getKeywords } from "./resources/utils/api";
 import "./styles/css/App.scss";
 
 const App = () => {
@@ -10,7 +10,6 @@ const App = () => {
   // ------------------------------ state ------------------------------
   // -------------------------------------------------------------------
 
-  const [studies, setStudies] = useState([]);
   const [keywords, setKeywords] = useState([]);
 
   // ------------------------------------------------------------------
@@ -19,10 +18,7 @@ const App = () => {
 
   // call api once whenever app boots up for the first time
   useEffect(() => {
-    getFullStudies().then((data) => {
-      setStudies(data);
-      setKeywords(getKeywordsFromStudies(data));
-    });
+    setKeywords(getKeywords());
   }, []);
 
   // ------------------------------------------------------------------
@@ -43,10 +39,9 @@ const App = () => {
               path="/search/:searchTerms/page/:pageNumber"
               component={({ match }) => (
                 <SearchPage
-                  studies={studies}
                   keywords={keywords}
                   searchTerms={match.params.searchTerms}
-                  pageNumber={match.params.pageNumber}
+                  pageNumber={parseInt(match.params.pageNumber)}
                 />
               )}
             />

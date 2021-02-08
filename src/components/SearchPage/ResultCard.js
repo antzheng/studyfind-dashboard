@@ -1,10 +1,10 @@
 import React from "react";
 
-const ResultCard = ({ info }) => {
+const ResultCard = ({ study }) => {
   return (
     <div className="searchpage-results-card">
-      <h3>{info.title}</h3>
-      <span>{info.description.substring(0, 400) + "..."}</span>
+      <h3>{study.briefTitle}</h3>
+      <span>{study.briefSummary.substring(0, 400) + "..."}</span>
     </div>
   );
 };

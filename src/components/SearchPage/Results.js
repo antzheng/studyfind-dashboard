@@ -1,16 +1,27 @@
-import React from "react";
-import { useHistory, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import FilterButton from "./FilterButton";
 import VisualizeButton from "./VisualizeButton";
 import ResultCard from "./ResultCard";
+import { Spin, Pagination, Button } from "antd";
 import StudyFindLogo from "./../../styles/assets/images/studyfind.png";
+import { paginateStudies } from "../../resources/utils/api";
 
-const Results = ({ results, pageNumber }) => {
+const Results = ({ info, pageNumber, ready }) => {
   // -------------------------------------------------------------------
   // ------------------------------ state ------------------------------
   // -------------------------------------------------------------------
 
   const history = useHistory();
+  const [studies, setStudies] = useState([[]]);
+
+  // ------------------------------------------------------------------
+  // --------------------------- life-cycle ---------------------------
+  // ------------------------------------------------------------------
+
+  useEffect(() => {
+    setStudies(paginateStudies(info.studies || [], 10));
+  }, [info]);
 
   // ------------------------------------------------------------------
   // ---------------------------- handlers ----------------------------
@@ -20,6 +31,32 @@ const Results = ({ results, pageNumber }) => {
     const oldURL = history.location.pathname;
     const newURL = oldURL.slice(0, oldURL.lastIndexOf("/") + 1) + page;
     history.push(newURL);
+  };
+
+  const itemRender = (current, type, originalElement) => {
+    if (type === "prev") {
+      return (
+        <Button
+          type="link"
+          size="small"
+          onClick={() => goToPage(pageNumber - 1)}
+        >
+          Previous
+        </Button>
+      );
+    }
+    if (type === "next") {
+      return (
+        <Button
+          type="link"
+          size="small"
+          onClick={() => goToPage(pageNumber + 1)}
+        >
+          Next
+        </Button>
+      );
+    }
+    return originalElement;
   };
 
   // ------------------------------------------------------------------
@@ -35,24 +72,37 @@ const Results = ({ results, pageNumber }) => {
           <VisualizeButton />
         </div>
         <div className="searchpage-results-space-above" />
-        {results[pageNumber - 1] === undefined ? (
-          <div className="searchpage-results-card">
-            No search results found!
-          </div>
+        {ready ? (
+          <>
+            {studies[(pageNumber % 100) - 1] === undefined ? (
+              <div className="searchpage-results-card">
+                No search results found!
+              </div>
+            ) : (
+              <>
+                {studies[(pageNumber % 100) - 1].map((study, index) => (
+                  <ResultCard key={index} study={study} />
+                ))}
+                <div className="searchpage-footer">
+                  <img src={StudyFindLogo} alt="studyfind" />
+                  <Pagination
+                    simple={true}
+                    defaultCurrent={1}
+                    current={pageNumber}
+                    total={info.totalStudies}
+                    showSizeChanger={false}
+                    itemRender={itemRender}
+                    onChange={(page) => goToPage(page)}
+                  />
+                </div>
+              </>
+            )}
+          </>
         ) : (
-          results[pageNumber - 1].map((info) => <ResultCard info={info} />)
+          <div className="searchpage-spinner">
+            <Spin size="large" />
+          </div>
         )}
-        <div className="searchpage-footer">
-          <img src={StudyFindLogo} alt="studyfind" />
-          {results.map((item, index) => (
-            <Link
-              className={index === pageNumber - 1 ? "highlighted" : ""}
-              onClick={() => goToPage(index + 1)}
-            >
-              {index + 1}
-            </Link>
-          ))}
-        </div>
       </div>
     </div>
   );
