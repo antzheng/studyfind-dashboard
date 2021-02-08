@@ -30,7 +30,7 @@ const Results = ({ info, pageNumber, ready }) => {
   const goToPage = (page) => {
     const oldURL = history.location.pathname;
     const newURL = oldURL.slice(0, oldURL.lastIndexOf("/") + 1) + page;
-    history.push(newURL);
+    if (oldURL !== newURL) history.push(newURL);
   };
 
   const itemRender = (current, type, originalElement) => {
@@ -74,13 +74,13 @@ const Results = ({ info, pageNumber, ready }) => {
         <div className="searchpage-results-space-above" />
         {ready ? (
           <>
-            {studies[(pageNumber % 100) - 1] === undefined ? (
+            {studies[(pageNumber - 1) % 100] === undefined ? (
               <div className="searchpage-results-card">
                 No search results found!
               </div>
             ) : (
               <>
-                {studies[(pageNumber % 100) - 1].map((study, index) => (
+                {studies[(pageNumber - 1) % 100].map((study, index) => (
                   <ResultCard key={index} study={study} />
                 ))}
                 <div className="searchpage-footer">
