@@ -410,6 +410,9 @@ body {
     max-width: 600px;
     border-radius: 5px;
     padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .searchpage-footer {
@@ -418,13 +421,8 @@ body {
     height: 100px;
     padding: 10px 20px 50px 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-
-    img {
-      width: 40px;
-      height: auto;
-    }
   }
 }
 

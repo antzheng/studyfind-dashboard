@@ -3,8 +3,7 @@ import { useHistory } from "react-router-dom";
 import FilterButton from "./FilterButton";
 import VisualizeButton from "./VisualizeButton";
 import ResultCard from "./ResultCard";
-import { Spin, Pagination, Button } from "antd";
-import StudyFindLogo from "./../../styles/assets/images/studyfind.png";
+import { Spin, Pagination, Button, Empty } from "antd";
 import { paginateStudies } from "../../resources/utils/api";
 
 const Results = ({ info, pageNumber, ready }) => {
@@ -41,7 +40,7 @@ const Results = ({ info, pageNumber, ready }) => {
           size="small"
           onClick={() => goToPage(pageNumber - 1)}
         >
-          Previous
+          {"< Prev"}
         </Button>
       );
     }
@@ -52,7 +51,7 @@ const Results = ({ info, pageNumber, ready }) => {
           size="small"
           onClick={() => goToPage(pageNumber + 1)}
         >
-          Next
+          {"Next >"}
         </Button>
       );
     }
@@ -75,8 +74,8 @@ const Results = ({ info, pageNumber, ready }) => {
         {ready ? (
           <>
             {studies[(pageNumber - 1) % 100] === undefined ? (
-              <div className="searchpage-results-card">
-                No search results found!
+              <div className="searchpage-spinner">
+                <Empty />
               </div>
             ) : (
               <>
@@ -84,15 +83,14 @@ const Results = ({ info, pageNumber, ready }) => {
                   <ResultCard key={index} study={study} />
                 ))}
                 <div className="searchpage-footer">
-                  <img src={StudyFindLogo} alt="studyfind" />
                   <Pagination
-                    simple={true}
-                    defaultCurrent={1}
-                    current={pageNumber}
-                    total={info.totalStudies}
+                    simple
                     showSizeChanger={false}
+                    current={pageNumber}
+                    defaultCurrent={1}
+                    total={info.totalStudies}
+                    onChange={goToPage}
                     itemRender={itemRender}
-                    onChange={(page) => goToPage(page)}
                   />
                 </div>
               </>

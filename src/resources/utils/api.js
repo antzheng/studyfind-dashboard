@@ -1,4 +1,4 @@
-import { studyFields, searchTerms } from "./constants";
+import { studyFields, searchTerms } from "./../constants";
 
 /* --------------------------------- info ---------------------------------
 Study Fields:
@@ -17,15 +17,10 @@ Study Fields:
 - CompletionDate
 */
 
-// gather keywords from constants.js and shuffle them to display for autocomplete
+// gather keywords from constants.js and sort them to display for autocomplete
 export const getKeywords = () => {
   const keywords = [...searchTerms];
-  for (let i = keywords.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * i);
-    const temp = keywords[i];
-    keywords[i] = keywords[j];
-    keywords[j] = temp;
-  }
+  keywords.sort();
   return keywords;
 };
 

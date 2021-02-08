@@ -26,7 +26,7 @@ const SearchPage = ({ keywords, searchTerms, pageNumber }) => {
       (Math.ceil((pageNumber * resultsPerPage) / 1000) - 1) * 1000 + 1;
     const upperBound = Math.ceil((pageNumber * resultsPerPage) / 1000) * 1000;
     if (range[0] !== lowerBound) setRange([lowerBound, upperBound]);
-  }, [pageNumber]);
+  }, [pageNumber, range]);
 
   // call API if search or range changes
   useEffect(() => {
