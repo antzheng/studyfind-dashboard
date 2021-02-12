@@ -32,7 +32,10 @@ const Searchbar = ({ keywords }) => {
 
   const enterSearch = () => {
     const search = searchbar.current.state.value.trim();
-    if (search) history.push(`/search/${search}/page/1`);
+    if (search) {
+      history.push(`/search/${search}/page/1`);
+      window.scrollTo(0, 0);
+    }
   };
 
   // ------------------------------------------------------------------

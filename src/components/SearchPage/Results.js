@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import FilterButton from "./FilterButton";
 import VisualizeButton from "./VisualizeButton";
 import ResultCard from "./ResultCard";
-import { Spin, Pagination, Button, Empty } from "antd";
+import { Spin, Pagination, Empty } from "antd";
 import { paginateStudies } from "../../resources/utils/api";
 
 const Results = ({ info, pageNumber, ready }) => {
@@ -29,33 +29,10 @@ const Results = ({ info, pageNumber, ready }) => {
   const goToPage = (page) => {
     const oldURL = history.location.pathname;
     const newURL = oldURL.slice(0, oldURL.lastIndexOf("/") + 1) + page;
-    if (oldURL !== newURL) history.push(newURL);
-  };
-
-  const itemRender = (current, type, originalElement) => {
-    if (type === "prev") {
-      return (
-        <Button
-          type="link"
-          size="small"
-          onClick={() => goToPage(pageNumber - 1)}
-        >
-          {"< Prev"}
-        </Button>
-      );
+    if (oldURL !== newURL) {
+      history.push(newURL);
+      window.scrollTo(0, 0);
     }
-    if (type === "next") {
-      return (
-        <Button
-          type="link"
-          size="small"
-          onClick={() => goToPage(pageNumber + 1)}
-        >
-          {"Next >"}
-        </Button>
-      );
-    }
-    return originalElement;
   };
 
   // ------------------------------------------------------------------
@@ -84,13 +61,11 @@ const Results = ({ info, pageNumber, ready }) => {
                 ))}
                 <div className="searchpage-footer">
                   <Pagination
-                    simple
                     showSizeChanger={false}
                     current={pageNumber}
                     defaultCurrent={1}
                     total={info.totalStudies}
                     onChange={goToPage}
-                    itemRender={itemRender}
                   />
                 </div>
               </>
