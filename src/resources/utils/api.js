@@ -30,8 +30,13 @@ export const getResponseFromSearch = async (searchTerms, minimum, maximum) => {
   const fields = studyFields.join("%2C+");
   const baseURL = `https://clinicaltrials.gov/api/query/study_fields?expr=${expr}&fields=${fields}&fmt=json`;
   const ranks = `&min_rnk=${minimum}&max_rnk=${maximum}`;
-  const response = await fetch(baseURL + ranks);
-  const data = await response.json();
+  const data = await fetch(baseURL + ranks)
+    .then((response) => {
+      return response.ok ? response.json() : Promise.reject(response);
+    })
+    .catch((error) => {
+      return { StudyFieldsResponse: {}, error };
+    });
   return data;
 };
 
@@ -63,7 +68,7 @@ export const getInfoFromResponse = (response) => {
   }));
 
   // hand back to caller
-  return { minRank, maxRank, totalStudies, studies: studies };
+  return { minRank, maxRank, totalStudies, studies };
 };
 
 // paginate data

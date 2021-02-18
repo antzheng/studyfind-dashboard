@@ -11,9 +11,9 @@ const SearchPage = ({ keywords, searchTerms, pageNumber }) => {
   // ------------------------------ state ------------------------------
   // -------------------------------------------------------------------
 
-  const [range, setRange] = useState([]);
+  const [range, setRange] = useState([NaN, NaN]);
   const [info, setInfo] = useState({});
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(true);
 
   // ------------------------------------------------------------------
   // --------------------------- life-cycle ---------------------------
@@ -25,12 +25,14 @@ const SearchPage = ({ keywords, searchTerms, pageNumber }) => {
     const lowerBound =
       (Math.ceil((pageNumber * resultsPerPage) / 1000) - 1) * 1000 + 1;
     const upperBound = Math.ceil((pageNumber * resultsPerPage) / 1000) * 1000;
-    if (range[0] !== lowerBound) setRange([lowerBound, upperBound]);
+    if (range[0] !== lowerBound && !isNaN(lowerBound)) {
+      setRange([lowerBound, upperBound]);
+    }
   }, [pageNumber, range]);
 
   // call API if search or range changes
   useEffect(() => {
-    if (range[0] !== undefined && range[1] !== undefined) {
+    if (!isNaN(range[0])) {
       setReady(false);
       getResponseFromSearch(searchTerms, ...range).then((response) => {
         setInfo(getInfoFromResponse(response));
@@ -38,12 +40,6 @@ const SearchPage = ({ keywords, searchTerms, pageNumber }) => {
       });
     }
   }, [searchTerms, range]);
-
-  // ------------------------------------------------------------------
-  // ---------------------------- handlers ----------------------------
-  // ------------------------------------------------------------------
-
-  // TODO: make handler functions
 
   // ------------------------------------------------------------------
   // ----------------------------- render -----------------------------

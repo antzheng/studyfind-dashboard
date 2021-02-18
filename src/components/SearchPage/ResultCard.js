@@ -32,6 +32,7 @@ const ResultCard = ({ study }) => {
         onCancel={() => setModalOpen(false)}
         zIndex={2000}
         bodyStyle={{ height: "60vh", overflow: "auto" }}
+        footer={null}
       >
         <Collapse>
           <Panel header="Full Title" key="1">
@@ -43,8 +44,8 @@ const ResultCard = ({ study }) => {
           <Panel header="Associated Conditions" key="3">
             {study.condition.length > 0 ? (
               <ul>
-                {study.condition.map((item) => (
-                  <li>{item}</li>
+                {study.condition.map((item, index) => (
+                  <li key={index}>{item}</li>
                 ))}
               </ul>
             ) : (
@@ -54,8 +55,8 @@ const ResultCard = ({ study }) => {
           <Panel header="Associated Keywords" key="4">
             {study.keyword.length > 0 ? (
               <ul>
-                {study.keyword.map((item) => (
-                  <li>{item}</li>
+                {study.keyword.map((item, index) => (
+                  <li key={index}>{item}</li>
                 ))}
               </ul>
             ) : (
