@@ -35,8 +35,6 @@ const SearchPage = ({ keywords, searchTerms, pageNumber }) => {
       getResponseFromSearch(searchTerms, ...range).then((response) => {
         setInfo(getInfoFromResponse(response));
         setReady(true);
-        // DEBUGGING REMOVE LATER
-        console.log("this will print whenever api endpoint is hit");
       });
     }
   }, [searchTerms, range]);

@@ -396,12 +396,27 @@ body {
     border-radius: 5px;
     padding: 10px 20px;
 
+    &:hover {
+      cursor: pointer;
+    }
+
     h3 {
       color: #3f8ff7;
       margin: 0;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
+    }
+
+    h5 {
+      margin: 0;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    span {
+      font-size: 90%;
     }
   }
 
