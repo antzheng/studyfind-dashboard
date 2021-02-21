@@ -29,26 +29,35 @@ export const getResponseFromSearch = async (searchTerms, minimum, maximum) => {
   const expr = encodeURIComponent(searchTerms);
   const fields = studyFields.join("%2C+");
   const baseURL = `https://clinicaltrials.gov/api/query/study_fields?expr=${expr}&fields=${fields}&fmt=json`;
-  const ranks = `&min_rnk=${minimum}&max_rnk=${maximum}`;
-  const data = await fetch(baseURL + ranks)
-    .then((response) => {
-      return response.ok ? response.json() : Promise.reject(response);
-    })
-    .catch((error) => {
-      return { StudyFieldsResponse: {}, error };
-    });
+  const data = [];
+  for (let i = minimum; i <= maximum; i += 1000) {
+    const ranks = `&min_rnk=${i}&max_rnk=${i + 999}`;
+    const response = await fetch(baseURL + ranks);
+    const json = await response.json();
+    if (json.StudyFieldsResponse.StudyFields === undefined) break;
+    data.push(json.StudyFieldsResponse);
+  }
   return data;
 };
 
 // break down api response into min rank, max rank, number of studies, and actual list of studies
-export const getInfoFromResponse = (response) => {
-  // destructure
-  let {
-    MinRank: minRank,
-    MaxRank: maxRank,
-    NStudiesFound: totalStudies,
-    StudyFields: studies,
-  } = response.StudyFieldsResponse;
+export const getInfoFromResponse = (responses) => {
+  let minRank = Infinity;
+  let maxRank = -Infinity;
+  let totalStudies = 0;
+  let studiesFound = 0;
+  let studies = [];
+
+  // update values using list of responses
+  responses.forEach(
+    ({ MinRank, MaxRank, NStudiesFound, NStudiesReturned, StudyFields }) => {
+      minRank = Math.min(minRank, MinRank);
+      maxRank = Math.max(maxRank, MaxRank);
+      totalStudies = NStudiesFound;
+      studiesFound += NStudiesReturned;
+      studies.push(...StudyFields);
+    }
+  );
 
   // reformat
   studies = (studies || []).map((item) => ({
@@ -68,7 +77,7 @@ export const getInfoFromResponse = (response) => {
   }));
 
   // hand back to caller
-  return { minRank, maxRank, totalStudies, studies };
+  return { minRank, maxRank, totalStudies, studiesFound, studies };
 };
 
 // paginate data

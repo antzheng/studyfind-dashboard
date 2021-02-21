@@ -6,7 +6,7 @@ import ResultCard from "./ResultCard";
 import { Spin, Pagination, Empty } from "antd";
 import { paginateStudies } from "../../resources/utils/api";
 
-const Results = ({ info, pageNumber, ready }) => {
+const Results = ({ info, pageNumber, ready, range, searchTerms }) => {
   // -------------------------------------------------------------------
   // ------------------------------ state ------------------------------
   // -------------------------------------------------------------------
@@ -45,7 +45,11 @@ const Results = ({ info, pageNumber, ready }) => {
         <div className="searchpage-results-navbar-covering" />
         <div className="searchpage-results-buttons">
           <FilterButton />
-          <VisualizeButton />
+          <VisualizeButton
+            range={range}
+            searchTerms={searchTerms}
+            studies={studies}
+          />
         </div>
         <div className="searchpage-results-space-above" />
         {ready ? (

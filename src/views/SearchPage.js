@@ -27,12 +27,15 @@ const SearchPage = ({ keywords, searchTerms, pageNumber }) => {
     const upperBound = Math.ceil((pageNumber * resultsPerPage) / 1000) * 1000;
     if (range[0] !== lowerBound && !isNaN(lowerBound)) {
       setRange([lowerBound, upperBound]);
+    } else if (!isNaN(range[0]) && isNaN(lowerBound)) {
+      setRange([NaN, NaN]);
+      setInfo({});
     }
   }, [pageNumber, range]);
 
   // call API if search or range changes
   useEffect(() => {
-    if (!isNaN(range[0])) {
+    if (!isNaN(range[0]) && !isNaN(range[1])) {
       setReady(false);
       getResponseFromSearch(searchTerms, ...range).then((response) => {
         setInfo(getInfoFromResponse(response));
@@ -48,7 +51,13 @@ const SearchPage = ({ keywords, searchTerms, pageNumber }) => {
   return (
     <>
       <Navbar keywords={keywords} searchTerms={searchTerms.trim()} />
-      <Results info={info} pageNumber={pageNumber} ready={ready} />
+      <Results
+        info={info}
+        pageNumber={pageNumber}
+        ready={ready}
+        range={range}
+        searchTerms={searchTerms}
+      />
     </>
   );
 };

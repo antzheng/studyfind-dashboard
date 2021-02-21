@@ -31,7 +31,10 @@ const ResultCard = ({ study }) => {
         onOk={() => setModalOpen(false)}
         onCancel={() => setModalOpen(false)}
         zIndex={2000}
-        bodyStyle={{ height: "60vh", overflow: "auto" }}
+        bodyStyle={{
+          height: "60vh",
+          overflow: "auto",
+        }}
         footer={null}
       >
         <Collapse>
