@@ -4,29 +4,41 @@ import { Layout, Menu } from "antd";
 import {
   PieChartOutlined,
   LineChartOutlined,
+  BarChartOutlined,
   CompassOutlined,
 } from "@ant-design/icons";
 import StudyFindLogo from "./../../styles/assets/images/studyfind.png";
 
 const { Sider, Footer } = Layout;
 
-const MenuOptions = ({ mode }) => {
+const MenuOptions = ({ mode, selectedKey, setGraph }) => {
   return (
-    <Menu theme="dark" defaultSelectedKeys={["1"]} mode={mode}>
+    <Menu
+      theme="dark"
+      selectedKeys={[selectedKey]}
+      mode={mode}
+      onSelect={({ key }) => setGraph(key)}
+    >
       <Menu.Item
-        key="1"
+        key="line"
         icon={<LineChartOutlined className="graphpage-menu-item-icon" />}
       >
         {mode === "inline" ? "Line Chart" : ""}
       </Menu.Item>
       <Menu.Item
-        key="2"
+        key="pie"
         icon={<PieChartOutlined className="graphpage-menu-item-icon" />}
       >
         {mode === "inline" ? "Pie Chart" : ""}
       </Menu.Item>
       <Menu.Item
-        key="3"
+        key="bar"
+        icon={<BarChartOutlined className="graphpage-menu-item-icon" />}
+      >
+        {mode === "inline" ? "Bar Chart" : ""}
+      </Menu.Item>
+      <Menu.Item
+        key="map"
         icon={<CompassOutlined className="graphpage-menu-item-icon" />}
       >
         {mode === "inline" ? "World Map" : ""}
@@ -35,7 +47,7 @@ const MenuOptions = ({ mode }) => {
   );
 };
 
-const SelectionMenu = ({ direction }) => {
+const SelectionMenu = ({ direction, graph, setGraph }) => {
   // ------------------------------------------------------------------
   // ----------------------------- state ------------------------------
   // ------------------------------------------------------------------
@@ -76,18 +88,24 @@ const SelectionMenu = ({ direction }) => {
         <>
           {siderVisible ? (
             <Sider
-              className="graphpage-sider"
+              className={
+                menuOpen
+                  ? "graphpage-sider"
+                  : "graphpage-sider graphpage-sider-collapsed"
+              }
               collapsible
               collapsed={!menuOpen}
               onCollapse={(collapsed) => setMenuOpen(!collapsed)}
             >
               <div className="graphpage-menu-logo" onClick={goHome}>
                 <img src={StudyFindLogo} alt="studyfind" />
-                <h2 className={menuOpen ? null : "graphpage-menu-collapsed"}>
-                  {menuOpen ? "StudyFind" : "..."}
-                </h2>
+                <h2>{menuOpen ? "StudyFind" : "..."}</h2>
               </div>
-              <MenuOptions mode="inline" />
+              <MenuOptions
+                mode="inline"
+                selectedKey={graph}
+                setGraph={setGraph}
+              />
             </Sider>
           ) : (
             <></>
@@ -97,7 +115,11 @@ const SelectionMenu = ({ direction }) => {
         <>
           {!siderVisible ? (
             <Footer className="graphpage-footer">
-              <MenuOptions mode="horizontal" />
+              <MenuOptions
+                mode="horizontal"
+                selectedKey={graph}
+                setGraph={setGraph}
+              />
             </Footer>
           ) : (
             <></>

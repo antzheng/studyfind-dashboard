@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Layout } from "antd";
 import SelectionMenu from "../components/GraphPage/SelectionMenu";
+import Graph from "../components/GraphPage/Graph";
 import {
   getResponseFromSearch,
   getInfoFromResponse,
@@ -13,7 +14,8 @@ const GraphPage = ({ searchTerms, minRank, maxRank }) => {
   // ----------------------------- state ------------------------------
   // ------------------------------------------------------------------
 
-  const [ready, setReady] = useState(true);
+  const [graph, setGraph] = useState("line");
+  const [ready, setReady] = useState(false);
   const [info, setInfo] = useState({
     totalStudies: 0,
     studiesFound: 0,
@@ -41,14 +43,22 @@ const GraphPage = ({ searchTerms, minRank, maxRank }) => {
 
   return (
     <Layout>
-      <SelectionMenu direction="vertical" />
+      <SelectionMenu direction="vertical" graph={graph} setGraph={setGraph} />
       <Layout>
-        <Content style={{ backgroundColor: "gray" }}>
-          <div style={{ height: "100vh", width: "100%" }}>
-            Visualization Goes Here
-          </div>
+        <Content>
+          <Graph
+            ready={ready}
+            graph={graph}
+            info={info}
+            minRank={minRank}
+            maxRank={maxRank}
+          />
         </Content>
-        <SelectionMenu direction="horizontal" />
+        <SelectionMenu
+          direction="horizontal"
+          graph={graph}
+          setGraph={setGraph}
+        />
       </Layout>
     </Layout>
   );

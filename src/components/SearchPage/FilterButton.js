@@ -6,7 +6,7 @@ const FilterButton = () => {
   return (
     <>
       <Tooltip title="Filter Search Results" placement="bottom">
-        <Button type="primary" icon={<FilterOutlined />}>
+        <Button type="primary" icon={<FilterOutlined />} disabled>
           Filter
         </Button>
       </Tooltip>

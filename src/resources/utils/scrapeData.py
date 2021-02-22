@@ -37,13 +37,22 @@ results = get(f"{baseURL}&min_rnk={minimum}&max_rnk={maximum}").json()['StudyFie
 # keywords and conditions
 searchTerms = set()
 
+# locations
+locations = set()
+
 
 # continually retrive 1000 results at a time until end
 while results['NStudiesReturned'] > 0:
     studies = results['StudyFields']
     for study in studies:
+        # add condition
         for term in study['Condition']:
             searchTerms.add(term.lower())
+            
+        # add location
+        for country in study['LocationCountry']:
+            locations.add(country)
+            
     print(f'done with scraping studies {minimum}-{maximum}, '
           f'found {results["NStudiesReturned"]}')
     minimum += 1000
@@ -53,7 +62,6 @@ while results['NStudiesReturned'] > 0:
 
 # debugging
 print('done with scraping')
-
 
 
 
