@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Tooltip } from "antd";
+import { Button } from "antd";
 import { BarChartOutlined } from "@ant-design/icons";
 
 const VisualizeButton = ({ searchTerms, range, studies }) => {
@@ -28,18 +28,14 @@ const VisualizeButton = ({ searchTerms, range, studies }) => {
   // ------------------------------------------------------------------
 
   return (
-    <>
-      <Tooltip title="Visualize Search Results" placement="bottom">
-        <Button
-          type="primary"
-          icon={<BarChartOutlined />}
-          onClick={goToVisualization}
-          disabled={studies.length === 0}
-        >
-          Visualize
-        </Button>
-      </Tooltip>
-    </>
+    <Button
+      type="primary"
+      icon={<BarChartOutlined />}
+      onClick={goToVisualization}
+      disabled={studies.length === 0}
+    >
+      Visualize
+    </Button>
   );
 };
 

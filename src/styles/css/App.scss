@@ -570,6 +570,21 @@ body {
       font-size: 150%;
     }
 
+    .graphpage-dropdown {
+      color: #3f8ff7;
+      text-align: center;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      .graphpage-dropdown-icon {
+        font-size: 70%;
+        vertical-align: middle;
+        transform: scaleX(1.3);
+      }
+    }
+
     .canvas-container {
       display: flex;
       justify-content: center;
@@ -589,6 +604,21 @@ body {
     .graphpage-button {
       height: 40px;
       border-radius: 5px;
+    }
+
+    .graphpage-button-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 290px;
+    }
+
+    .graphpage-filler-container {
+      height: 50vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .graphpage-flexcol {

@@ -53,7 +53,7 @@ const SelectionMenu = ({ direction, graph, setGraph }) => {
   // ------------------------------------------------------------------
 
   const history = useHistory();
-  const [menuOpen, setMenuOpen] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(window.innerWidth > 900);
   const [siderVisible, setSiderVisible] = useState(false);
 
   // ------------------------------------------------------------------

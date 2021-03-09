@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Spin, Empty } from "antd";
 import Chart from "chart.js";
+import TitleDropdown from "./TitleDropdown";
 import InfoButton from "./InfoButton";
 import FilterButton from "./FilterButton";
+import ExportButton from "./ExportButton";
 import {
   formatLineChart,
   formatPieChart,
@@ -28,12 +30,7 @@ const Graph = ({
   // ------------------------------------------------------------------
 
   const chartRef = useRef();
-  const graphTitles = {
-    startDate: "Studies by Start Date",
-    stdAge: "Studies by Age Group",
-    endDate: "Studies by End Date",
-    locationCountry: "Studies by Country",
-  };
+  const [studiesDisplayed, setStudiesDisplayed] = useState(0);
 
   // ------------------------------------------------------------------
   // --------------------------- life-cycle ---------------------------
@@ -64,8 +61,8 @@ const Graph = ({
         graph === "map" ? "locationCountry" : dataType
       );
 
-      // debugging number of studies actually displayed
-      console.log("Number of displayed studies: " + numDisplayed);
+      // update studies displayed for statistics
+      setStudiesDisplayed(numDisplayed);
 
       // fill in the canvas
       const context = chartRef.current.getContext("2d");
@@ -96,11 +93,11 @@ const Graph = ({
     <>
       <div className="graphpage-content-container">
         <div className="graphpage-flexrow">
-          <h1 className="graphpage-title">
-            {graph === "map"
-              ? graphTitles.locationCountry
-              : graphTitles[dataType]}
-          </h1>
+          <TitleDropdown
+            graph={graph}
+            dataType={dataType}
+            setDataType={setDataType}
+          />
         </div>
         <div className="graphpage-flexrow">
           {ready ? (
@@ -108,16 +105,19 @@ const Graph = ({
               <div className="canvas-container">
                 <canvas id="graph-canvas" ref={chartRef} />
               </div>
-              <div
-                className="graphpage-flexrow"
-                style={{ width: "170px", justifyContent: "space-between" }}
-              >
-                <InfoButton />
-                <FilterButton />
+              <div className="graphpage-button-container">
+                <InfoButton
+                  info={info}
+                  minRank={minRank}
+                  maxRank={maxRank}
+                  studiesDisplayed={studiesDisplayed}
+                />
+                <FilterButton minRank={minRank} maxRank={maxRank} />
+                <ExportButton />
               </div>
             </div>
           ) : (
-            <>
+            <div className="graphpage-filler-container">
               {!isNaN(minRank) && !isNaN(maxRank) ? (
                 <Spin
                   size="large"
@@ -126,7 +126,7 @@ const Graph = ({
               ) : (
                 <Empty />
               )}
-            </>
+            </div>
           )}
         </div>
       </div>

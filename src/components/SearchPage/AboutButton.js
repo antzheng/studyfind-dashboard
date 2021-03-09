@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Tooltip, Modal, Statistic, Row, Col } from "antd";
+import { Button, Modal, Statistic, Row, Col } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 
 const AboutButton = ({ info }) => {
@@ -15,15 +15,13 @@ const AboutButton = ({ info }) => {
 
   return (
     <>
-      <Tooltip title="Search Results Summary" placement="bottom">
-        <Button
-          type="primary"
-          icon={<InfoCircleOutlined />}
-          onClick={() => setModalOpen(true)}
-        >
-          About
-        </Button>
-      </Tooltip>
+      <Button
+        type="primary"
+        icon={<InfoCircleOutlined />}
+        onClick={() => setModalOpen(true)}
+      >
+        About
+      </Button>
       <Modal
         centered
         title="Search Results Summary"

@@ -30,37 +30,47 @@ export const getResponseFromSearch = async (searchTerms, minimum, maximum) => {
   const fields = studyFields.join("%2C+");
   const baseURL = `https://clinicaltrials.gov/api/query/study_fields?expr=${expr}&fields=${fields}&fmt=json`;
   const data = [];
+  let totalStudies = 0;
+
+  // call api in sets of 1000
   for (let i = minimum; i <= maximum; i += 1000) {
     const ranks = `&min_rnk=${i}&max_rnk=${i + 999}`;
     const response = await fetch(baseURL + ranks);
     const json = await response.json();
+
+    // gather the total
+    totalStudies = json.StudyFieldsResponse.NStudiesFound;
+
+    // terminate early if range is greater than max
     if (json.StudyFieldsResponse.StudyFields === undefined) break;
+
+    // fix information to match range
+    json.StudyFieldsResponse.StudyFields = json.StudyFieldsResponse.StudyFields.filter(
+      (study) => study.Rank >= minimum && study.Rank <= maximum
+    );
+    json.StudyFieldsResponse.NStudiesReturned =
+      json.StudyFieldsResponse.StudyFields.length;
+
+    // add to final data set
     data.push(json.StudyFieldsResponse);
   }
-  return data;
+  return { minimum, maximum, totalStudies, data };
 };
 
 // break down api response into min rank, max rank, number of studies, and actual list of studies
 export const getInfoFromResponse = (responses) => {
-  let minRank = Infinity;
-  let maxRank = -Infinity;
-  let totalStudies = 0;
+  let { minimum: minRank, maximum: maxRank, totalStudies, data } = responses;
   let studiesFound = 0;
   let studies = [];
 
   // update values using list of responses
-  responses.forEach(
-    ({ MinRank, MaxRank, NStudiesFound, NStudiesReturned, StudyFields }) => {
-      minRank = Math.min(minRank, MinRank);
-      maxRank = Math.max(maxRank, MaxRank);
-      totalStudies = NStudiesFound;
-      studiesFound += NStudiesReturned;
-      studies.push(...StudyFields);
-    }
-  );
+  data.forEach(({ NStudiesReturned, StudyFields }) => {
+    studiesFound += NStudiesReturned;
+    studies.push(...StudyFields);
+  });
 
   // reformat
-  studies = (studies || []).map((item) => ({
+  studies = studies.map((item) => ({
     briefTitle: item.BriefTitle[0],
     briefSummary: item.BriefSummary[0],
     condition: item.Condition,
