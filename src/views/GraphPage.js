@@ -15,6 +15,7 @@ const GraphPage = ({ searchTerms, minRank, maxRank }) => {
   // ------------------------------------------------------------------
 
   const [graph, setGraph] = useState("line");
+  const [dataType, setDataType] = useState("startDate");
   const [ready, setReady] = useState(false);
   const [info, setInfo] = useState({
     totalStudies: 0,
@@ -52,6 +53,8 @@ const GraphPage = ({ searchTerms, minRank, maxRank }) => {
             info={info}
             minRank={minRank}
             maxRank={maxRank}
+            dataType={dataType}
+            setDataType={setDataType}
           />
         </Content>
         <SelectionMenu

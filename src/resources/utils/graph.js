@@ -108,27 +108,35 @@ export const formatLineChart = (studies, dataType) => {
   let title = "";
   let labels = [];
   let numDisplayed = 0;
+  let xAxisLabel = "";
+  let yAxisLabel = "";
 
   // fill in info based on dataType
   if (dataType === "startDate") {
     [data, numDisplayed] = getDateData(studies, "startDate");
     title = "Start Date";
     labels = months;
+    xAxisLabel = "Month";
+    yAxisLabel = "Number of Studies";
   } else if (dataType === "endDate") {
     [data, numDisplayed] = getDateData(studies, "endDate");
     title = "End Date";
     labels = months;
+    xAxisLabel = "Month";
+    yAxisLabel = "Number of Studies";
   } else if (dataType === "stdAge") {
     [data, numDisplayed] = getStdAgeData(studies);
     title = "Age Group";
     labels = ageGroups;
+    xAxisLabel = "Age Group";
+    yAxisLabel = "Number of Studies";
   }
 
   // format the dataset
   const dataset = {
     label: title,
     data: data,
-    fill: false,
+    backgroundColor: "rgba(106, 229, 180, 0.2)",
     borderColor: colors[0],
   };
 
@@ -136,6 +144,24 @@ export const formatLineChart = (studies, dataType) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    scales: {
+      xAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: xAxisLabel,
+          },
+        },
+      ],
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: yAxisLabel,
+          },
+        },
+      ],
+    },
   };
   return [numDisplayed, labels, dataset, options];
 };
@@ -178,20 +204,28 @@ export const formatBarChart = (studies, dataType) => {
   let title = "";
   let labels = [];
   let numDisplayed = 0;
+  let xAxisLabel = "";
+  let yAxisLabel = "";
 
   // fill in info based on dataType
   if (dataType === "startDate") {
     [data, numDisplayed] = getDateData(studies, "startDate");
     title = "Start Date";
     labels = months;
+    xAxisLabel = "Month";
+    yAxisLabel = "Number of Studies";
   } else if (dataType === "endDate") {
     [data, numDisplayed] = getDateData(studies, "endDate");
     title = "End Date";
     labels = months;
+    xAxisLabel = "Month";
+    yAxisLabel = "Number of Studies";
   } else if (dataType === "stdAge") {
     [data, numDisplayed] = getStdAgeData(studies);
     title = "Age Group";
     labels = ageGroups;
+    xAxisLabel = "Age Group";
+    yAxisLabel = "Number of Studies";
   }
 
   // format the dataset
@@ -205,6 +239,24 @@ export const formatBarChart = (studies, dataType) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    scales: {
+      xAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: xAxisLabel,
+          },
+        },
+      ],
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: yAxisLabel,
+          },
+        },
+      ],
+    },
   };
   return [numDisplayed, labels, dataset, options];
 };

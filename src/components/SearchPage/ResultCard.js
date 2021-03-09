@@ -16,12 +16,9 @@ const ResultCard = ({ study }) => {
 
   return (
     <>
-      <div
-        className="searchpage-results-card"
-        onClick={() => setModalOpen(true)}
-      >
+      <div className="searchpage-results-card">
         <h5>{study.organization}</h5>
-        <h3>{study.briefTitle}</h3>
+        <h3 onClick={() => setModalOpen(true)}>{study.briefTitle}</h3>
         <span>{study.briefSummary.substring(0, 500) + "..."}</span>
       </div>
       <Modal

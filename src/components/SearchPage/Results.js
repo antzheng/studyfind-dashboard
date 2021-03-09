@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import FilterButton from "./FilterButton";
+import AboutButton from "./AboutButton";
 import VisualizeButton from "./VisualizeButton";
 import ResultCard from "./ResultCard";
 import { Spin, Pagination, Empty } from "antd";
@@ -44,7 +44,7 @@ const Results = ({ info, pageNumber, ready, range, searchTerms }) => {
       <div className="searchpage-results-items">
         <div className="searchpage-results-navbar-covering" />
         <div className="searchpage-results-buttons">
-          <FilterButton />
+          <AboutButton info={info} />
           <VisualizeButton
             range={range}
             searchTerms={searchTerms}
