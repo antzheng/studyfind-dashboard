@@ -31,6 +31,7 @@ const Graph = ({
 
   const chartRef = useRef();
   const [studiesDisplayed, setStudiesDisplayed] = useState(0);
+  const [graphImage, setGraphImage] = useState(null);
 
   // ------------------------------------------------------------------
   // --------------------------- life-cycle ---------------------------
@@ -65,7 +66,8 @@ const Graph = ({
       setStudiesDisplayed(numDisplayed);
 
       // fill in the canvas
-      const context = chartRef.current.getContext("2d");
+      const canvas = chartRef.current;
+      const context = canvas.getContext("2d");
       const chart = new Chart(context, {
         type: graphTypes[graph],
         data: {
@@ -73,6 +75,26 @@ const Graph = ({
           datasets: [dataset],
         },
         options: options,
+        plugins: [
+          {
+            afterRender: function (c) {
+              // fill in background color of canvas
+              const ctx = c.chart.ctx;
+              ctx.save();
+              ctx.globalCompositeOperation = "destination-over";
+              ctx.fillStyle = "white";
+              ctx.fillRect(0, 0, c.chart.width, c.chart.height);
+              ctx.restore();
+
+              // update state with new image data url
+              setGraphImage(
+                canvas
+                  .toDataURL("image/png")
+                  .replace("image/png", "image/octet-stream")
+              );
+            },
+          },
+        ],
       });
 
       // set canvas size
@@ -113,7 +135,11 @@ const Graph = ({
                   studiesDisplayed={studiesDisplayed}
                 />
                 <FilterButton minRank={minRank} maxRank={maxRank} />
-                <ExportButton />
+                <ExportButton
+                  graphImage={graphImage}
+                  graph={graph}
+                  dataType={dataType}
+                />
               </div>
             </div>
           ) : (

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Modal, Statistic, Row, Col } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 
-const AboutButton = ({ info }) => {
+const AboutButton = ({ info, studies, pageNumber }) => {
   // -------------------------------------------------------------------
   // ------------------------------ state ------------------------------
   // -------------------------------------------------------------------
@@ -19,6 +19,7 @@ const AboutButton = ({ info }) => {
         type="primary"
         icon={<InfoCircleOutlined />}
         onClick={() => setModalOpen(true)}
+        disabled={studies[(pageNumber - 1) % 100] === undefined}
       >
         About
       </Button>
@@ -36,7 +37,13 @@ const AboutButton = ({ info }) => {
             <Statistic title="Available Studies" value={info.totalStudies} />
           </Col>
           <Col span={12}>
-            <Statistic title="Cached Studies" value={info.studiesFound} />
+            <Statistic
+              title="Currently Viewing"
+              value={`${pageNumber * 10 - 9} - ${Math.min(
+                pageNumber * 10,
+                info.totalStudies
+              )}`}
+            />
           </Col>
         </Row>
       </Modal>

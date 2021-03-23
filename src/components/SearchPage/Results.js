@@ -44,11 +44,12 @@ const Results = ({ info, pageNumber, ready, range, searchTerms }) => {
       <div className="searchpage-results-items">
         <div className="searchpage-results-navbar-covering" />
         <div className="searchpage-results-buttons">
-          <AboutButton info={info} />
+          <AboutButton info={info} studies={studies} pageNumber={pageNumber} />
           <VisualizeButton
             range={range}
             searchTerms={searchTerms}
             studies={studies}
+            pageNumber={pageNumber}
           />
         </div>
         <div className="searchpage-results-space-above" />

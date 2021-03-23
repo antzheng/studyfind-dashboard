@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Button } from "antd";
 import { BarChartOutlined } from "@ant-design/icons";
 
-const VisualizeButton = ({ searchTerms, range, studies }) => {
+const VisualizeButton = ({ searchTerms, range, studies, pageNumber }) => {
   // ------------------------------------------------------------------
   // ----------------------------- state ------------------------------
   // ------------------------------------------------------------------
@@ -32,7 +32,7 @@ const VisualizeButton = ({ searchTerms, range, studies }) => {
       type="primary"
       icon={<BarChartOutlined />}
       onClick={goToVisualization}
-      disabled={studies.length === 0}
+      disabled={studies[(pageNumber - 1) % 100] === undefined}
     >
       Visualize
     </Button>

@@ -31,6 +31,7 @@ const ResultCard = ({ study }) => {
         bodyStyle={{
           height: "60vh",
           overflow: "auto",
+          padding: 0,
         }}
         footer={null}
       >
