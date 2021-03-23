@@ -139,6 +139,7 @@ const Graph = ({
                   graphImage={graphImage}
                   graph={graph}
                   dataType={dataType}
+                  info={info}
                 />
               </div>
             </div>
