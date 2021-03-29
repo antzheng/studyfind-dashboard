@@ -53,7 +53,7 @@ const SelectionMenu = ({ direction, graph, setGraph }) => {
   // ------------------------------------------------------------------
 
   const history = useHistory();
-  const [menuOpen, setMenuOpen] = useState(window.innerWidth > 900);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [siderVisible, setSiderVisible] = useState(false);
 
   // ------------------------------------------------------------------
@@ -93,8 +93,8 @@ const SelectionMenu = ({ direction, graph, setGraph }) => {
                   ? "graphpage-sider"
                   : "graphpage-sider graphpage-sider-collapsed"
               }
-              collapsible
               collapsed={!menuOpen}
+              collapsible
               onCollapse={(collapsed) => setMenuOpen(!collapsed)}
             >
               <div className="graphpage-menu-logo" onClick={goHome}>

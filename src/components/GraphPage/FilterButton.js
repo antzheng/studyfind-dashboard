@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Modal, Form, InputNumber } from "antd";
-import { FilterOutlined } from "@ant-design/icons";
+import { Button, Modal, Slider, Input, Tooltip } from "antd";
+import { FilterFilled } from "@ant-design/icons";
 
-const FilterButton = ({ minRank, maxRank }) => {
+const FilterButton = ({ minRank, maxRank, totalStudies }) => {
   // -------------------------------------------------------------------
   // ------------------------------ state ------------------------------
   // -------------------------------------------------------------------
@@ -35,49 +35,72 @@ const FilterButton = ({ minRank, maxRank }) => {
     setModalOpen(false);
   };
 
+  // change value using input
+  const changeInputValue = (lowerBound, event) => {
+    let value = event.target.value;
+    if ("1234567890".includes(value[value.length - 1])) {
+      value = parseInt(value);
+      if (lowerBound && value <= maxValue) {
+        setMinValue(value);
+      } else if (!lowerBound && value >= minValue && value <= totalStudies) {
+        setMaxValue(value);
+      }
+    }
+  };
+
+  // change value using slider
+  const changeSliderValue = ([low, high]) => {
+    if (minValue !== low) setMinValue(low);
+    if (maxValue !== high) setMaxValue(high);
+  };
+
   // ------------------------------------------------------------------
   // ----------------------------- render -----------------------------
   // ------------------------------------------------------------------
 
   return (
     <>
-      <Button
-        className="graphpage-button"
-        type="primary"
-        icon={<FilterOutlined />}
-        onClick={() => setModalOpen(true)}
-      >
-        Filter
-      </Button>
+      <Tooltip placement="left" title="Filter">
+        <Button
+          className="graphpage-button"
+          type="primary"
+          icon={<FilterFilled />}
+          onClick={() => setModalOpen(true)}
+          shape="circle"
+          size="large"
+        />
+      </Tooltip>
       <Modal
         centered
-        title="Filter Range of Studies"
+        title="Filter Studies Queried"
         visible={modalOpen}
         onOk={goToVisualization}
         onCancel={closeModalHandler}
         zIndex={2000}
       >
-        <Form
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 14 }}
-          layout="horizontal"
-          size="default"
-        >
-          <Form.Item label="Min Rank:">
-            <InputNumber
+        <div className="graphpage-filter-input-row">
+          <h3>Currently Viewing:</h3>
+          <div className="graphpage-range-container">
+            <Input
+              className="graphpage-filter-input"
               value={minValue}
-              min={1}
-              onChange={(val) => setMinValue(val || 1)}
+              onChange={(e) => changeInputValue(true, e)}
             />
-          </Form.Item>
-          <Form.Item label="Max Rank:">
-            <InputNumber
+            <h3>{" – "}</h3>
+            <Input
+              className="graphpage-filter-input"
               value={maxValue}
-              min={minValue}
-              onChange={(val) => setMaxValue(val || minValue)}
+              onChange={(e) => changeInputValue(false, e)}
             />
-          </Form.Item>
-        </Form>
+          </div>
+        </div>
+        <Slider
+          range={true}
+          min={1}
+          max={totalStudies}
+          value={[minValue, maxValue]}
+          onChange={changeSliderValue}
+        />
       </Modal>
     </>
   );

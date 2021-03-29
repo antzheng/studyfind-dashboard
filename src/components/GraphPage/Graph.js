@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { Spin, Empty } from "antd";
 import Chart from "chart.js";
 import TitleDropdown from "./TitleDropdown";
-import InfoButton from "./InfoButton";
 import FilterButton from "./FilterButton";
 import ExportButton from "./ExportButton";
+import StatsCard from "./StatsCard";
 import {
   formatLineChart,
   formatPieChart,
@@ -36,6 +36,35 @@ const Graph = ({
   // ------------------------------------------------------------------
   // --------------------------- life-cycle ---------------------------
   // ------------------------------------------------------------------
+
+  // resize layout window to fit content automatically
+  useEffect(() => {
+    // define listener function for resizing
+    const listener = () => {
+      // find distance from top of last element
+      let element = document.querySelectorAll(".graphpage-card");
+      element = element[element.length - 1];
+      if (!element) {
+        element = document.querySelector(".graphpage-filler-container");
+      }
+      if (element) {
+        let top = 0;
+        let height = element.offsetHeight;
+        while (element) {
+          top += element.offsetTop;
+          element = element.offsetParent;
+        }
+
+        // resize based on position
+        document.querySelectorAll(".ant-layout").forEach((node) => {
+          node.style.height = `${top + 2 * height}px`;
+        });
+      }
+    };
+    setTimeout(listener, 100);
+    window.addEventListener("resize", listener);
+    return () => window.removeEventListener("resize", listener);
+  }, []);
 
   // set up the chart on the canvas element when component is mounted
   useEffect(() => {
@@ -98,10 +127,10 @@ const Graph = ({
       });
 
       // set canvas size
-      chart.canvas.parentNode.style.height = `${window.innerHeight * 0.75}px`;
-      chart.canvas.parentNode.style.width = "95%";
+      chart.canvas.parentNode.style.height = "100%";
+      chart.canvas.parentNode.style.width = "100%";
       chart.canvas.parentNode.style.maxHeight = "600px";
-      chart.canvas.parentNode.style.maxWidth = "800px";
+      chart.canvas.parentNode.style.maxWidth = "900px";
 
       // destroy canvas on component rerender
       return () => chart.destroy();
@@ -114,35 +143,50 @@ const Graph = ({
   return (
     <>
       <div className="graphpage-content-container">
-        <div className="graphpage-flexrow">
-          <TitleDropdown
-            graph={graph}
-            dataType={dataType}
-            setDataType={setDataType}
-          />
+        <div className="graphpage-toprow-container">
+          <div className="graphpage-toprow">
+            <TitleDropdown
+              graph={graph}
+              dataType={dataType}
+              setDataType={setDataType}
+            />
+            <div className="navbar-space" />
+            <FilterButton
+              minRank={minRank}
+              maxRank={maxRank}
+              totalStudies={info.totalStudies}
+            />
+            <ExportButton
+              graphImage={graphImage}
+              graph={graph}
+              dataType={dataType}
+              info={info}
+              ready={ready}
+            />
+          </div>
         </div>
         <div className="graphpage-flexrow">
           {ready ? (
-            <div className="graphpage-flexcol">
+            <>
               <div className="canvas-container">
                 <canvas id="graph-canvas" ref={chartRef} />
               </div>
-              <div className="graphpage-button-container">
-                <InfoButton
-                  info={info}
-                  minRank={minRank}
-                  maxRank={maxRank}
-                  studiesDisplayed={studiesDisplayed}
+              <div className="graphpage-card-column">
+                <StatsCard
+                  title="Available Studies"
+                  value={info.totalStudies}
                 />
-                <FilterButton minRank={minRank} maxRank={maxRank} />
-                <ExportButton
-                  graphImage={graphImage}
-                  graph={graph}
-                  dataType={dataType}
-                  info={info}
+                <StatsCard title="Studies Returned" value={info.studiesFound} />
+                <StatsCard
+                  title="Studies Visualized"
+                  value={studiesDisplayed}
+                />
+                <StatsCard
+                  title="Studies Queried"
+                  value={`${minRank} - ${maxRank}`}
                 />
               </div>
-            </div>
+            </>
           ) : (
             <div className="graphpage-filler-container">
               {!isNaN(minRank) && !isNaN(maxRank) ? (
@@ -157,7 +201,6 @@ const Graph = ({
           )}
         </div>
       </div>
-      <div style={{ height: "60px" }} />
     </>
   );
 };

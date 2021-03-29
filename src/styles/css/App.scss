@@ -453,6 +453,7 @@ body {
 // --------------------------- GraphPage ----------------------------
 // ------------------------------------------------------------------
 
+// sider menu
 .graphpage-sider {
   .graphpage-menu-logo {
     display: flex;
@@ -523,6 +524,7 @@ body {
   }
 }
 
+// footer menu
 .graphpage-footer {
   width: 100%;
   position: fixed;
@@ -549,25 +551,102 @@ body {
   }
 }
 
+// content layout
 .ant-layout {
-  height: 100vh;
-  background-color: white;
+  height: 500vh;
+  min-height: 100vh;
+  background-color: #f9f9f9;
 
   .ant-layout-content {
     height: 100%;
   }
+}
 
-  .graphpage-content-container {
-    height: 100%;
-    padding: 25px 30px;
+// main container for graphpage
+.graphpage-content-container {
+  height: 100%;
+  padding: 15px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .graphpage-flexrow {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    max-width: 1150px;
+    padding: 0 12px;
+  }
+
+  .canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  #graph-canvas {
+    padding: 30px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .graphpage-card-column {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: 1;
+    max-width: 900px;
+    max-height: 600px;
+
+    .graphpage-card {
+      padding: 30px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      flex: 1;
+      min-width: 200px;
+    }
+  }
+
+  .graphpage-filler-container {
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+// first row of graphpage with graph title and buttons
+.graphpage-toprow-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 56px;
+  margin-bottom: 15px;
+
+  .graphpage-toprow {
+    width: 100%;
+    max-width: 1150px;
+    margin: 0 auto;
+    display: flex;
     align-items: center;
 
+    .navbar-space {
+      flex-grow: 1;
+    }
+
     .graphpage-title {
-      margin-bottom: 20px;
+      margin-bottom: 0px;
       text-transform: capitalize;
       font-size: 150%;
+      margin-left: 12px;
     }
 
     .graphpage-dropdown {
@@ -585,62 +664,52 @@ body {
       }
     }
 
-    .canvas-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      margin-bottom: 25px;
-    }
-
-    #graph-canvas {
-      padding: 30px;
-      border: 1px solid #ccc;
-      border-radius: 16px;
-      -webkit-box-shadow: 0px 11px 0px -7px rgba(0, 0, 0, 0.3);
-      box-shadow: 0px 11px 0px -7px rgba(0, 0, 0, 0.3);
-    }
-
     .graphpage-button {
-      height: 40px;
-      border-radius: 5px;
-    }
+      padding-bottom: 1px;
+      background: transparent;
+      border-color: transparent;
+      box-shadow: none;
 
-    .graphpage-button-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      max-width: 290px;
-    }
+      &:hover {
+        background: rgba(204, 204, 204, 0.3);
+      }
 
-    .graphpage-filler-container {
-      height: 50vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .graphpage-flexcol {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      height: 100%;
-      width: 100%;
-    }
-
-    .graphpage-flexrow {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
+      svg {
+        color: #3f8ff7;
+      }
     }
   }
 }
 
+// link tag for saving/exporting graph
 #saveLink {
   display: none;
+}
+
+// graphpage filter modal
+.graphpage-filter-input-row {
+  display: flex;
+  align-items: center;
+
+  h3 {
+    margin: 0;
+    padding: 0;
+  }
+
+  .graphpage-range-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex: 1;
+
+    .graphpage-filter-input {
+      width: 70px;
+      text-align: center;
+      font-family: "Avenir", "Helvetica", sans-serif !important;
+      font-weight: 600;
+      color: #3f8ff7;
+    }
+  }
 }
 
 // -------------------------------------------------------------------
@@ -676,8 +745,21 @@ body {
   }
 }
 
+// when screen width reachs 600px and below
+@media only screen and (max-width: 320px) {
+  // change font-size
+  .graphpage-title {
+    font-size: 80% !important;
+  }
+}
+
 // when screen width reachs 768px and below (ipads and below)
 @media only screen and (max-width: 768px) {
+  // change font-size
+  .graphpage-title {
+    font-size: 110% !important;
+  }
+
   // change navbar from horizontal website layout to vertical mobile layout
   .searchpage-navbar {
     h2 {

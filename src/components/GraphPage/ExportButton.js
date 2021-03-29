@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Button, Dropdown, Menu } from "antd";
-import { ExportOutlined } from "@ant-design/icons";
+import { Button, Dropdown, Menu, Tooltip } from "antd";
+import { SaveFilled } from "@ant-design/icons";
 
-const ExportButton = ({ graphImage, graph, dataType, info }) => {
+const ExportButton = ({ graphImage, graph, dataType, info, ready }) => {
   // ------------------------------------------------------------------
   // ----------------------------- state ------------------------------
   // ------------------------------------------------------------------
@@ -15,12 +15,12 @@ const ExportButton = ({ graphImage, graph, dataType, info }) => {
 
   // close the menu if user scrolls
   useEffect(() => {
-    const listener = () => setMenuOpen(false);
-    document
-      .querySelectorAll(".ant-layout")[1]
-      .addEventListener("scroll", listener);
+    const listener = () => {
+      if (menuOpen) setMenuOpen(false);
+    };
+    window.addEventListener("scroll", listener);
     return () => window.removeEventListener("scroll", listener);
-  }, []);
+  }, [menuOpen]);
 
   // ------------------------------------------------------------------
   // ---------------------------- handlers ----------------------------
@@ -122,16 +122,18 @@ const ExportButton = ({ graphImage, graph, dataType, info }) => {
         width: "150px",
         position: "fixed",
       }}
-      placement="topLeft"
+      placement="bottomRight"
+      disabled={graphImage === null || !ready}
     >
-      <Button
-        className="graphpage-button"
-        type="primary"
-        icon={<ExportOutlined />}
-        disabled={graphImage === null}
-      >
-        Export
-      </Button>
+      <Tooltip placement="right" title="Export">
+        <Button
+          className="graphpage-button"
+          type="primary"
+          icon={<SaveFilled />}
+          shape="circle"
+          size="large"
+        />
+      </Tooltip>
     </Dropdown>
   );
 };

@@ -35,12 +35,12 @@ const TitleDropdown = ({ graph, dataType, setDataType }) => {
 
   // close the menu if user scrolls
   useEffect(() => {
-    const listener = () => setMenuOpen(false);
-    document
-      .querySelectorAll(".ant-layout")[1]
-      .addEventListener("scroll", listener);
+    const listener = () => {
+      if (menuOpen) setMenuOpen(false);
+    };
+    window.addEventListener("scroll", listener);
     return () => window.removeEventListener("scroll", listener);
-  }, []);
+  }, [menuOpen]);
 
   // ------------------------------------------------------------------
   // ----------------------------- render -----------------------------

@@ -147,6 +147,9 @@ export const formatLineChart = (studies, dataType) => {
     scales: {
       xAxes: [
         {
+          gridLines: {
+            display: false,
+          },
           scaleLabel: {
             display: true,
             labelString: xAxisLabel,
@@ -250,6 +253,9 @@ export const formatBarChart = (studies, dataType) => {
       ],
       yAxes: [
         {
+          gridLines: {
+            display: false,
+          },
           scaleLabel: {
             display: true,
             labelString: yAxisLabel,
