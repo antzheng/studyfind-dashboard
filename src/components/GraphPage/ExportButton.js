@@ -2,7 +2,30 @@ import React, { useState, useEffect } from "react";
 import { Button, Dropdown, Menu, Tooltip } from "antd";
 import { SaveFilled } from "@ant-design/icons";
 
-const ExportButton = ({ graphImage, graph, dataType, info, ready }) => {
+const DropdownMenu = ({ saveImage, saveCSV, graphImage }) => {
+  return (
+    <Menu selectedKeys={[]}>
+      <Menu.Item key="saveImage" onClick={saveImage}>
+        Save as Image
+      </Menu.Item>
+      <Menu.Item key="saveCSV" onClick={saveCSV}>
+        Save as CSV
+      </Menu.Item>
+      <a id="saveLink" href={graphImage}>
+        Save Data
+      </a>
+    </Menu>
+  );
+};
+
+const ExportButton = ({
+  darkMode,
+  graphImage,
+  graph,
+  dataType,
+  info,
+  ready,
+}) => {
   // ------------------------------------------------------------------
   // ----------------------------- state ------------------------------
   // ------------------------------------------------------------------
@@ -101,18 +124,13 @@ const ExportButton = ({ graphImage, graph, dataType, info, ready }) => {
 
   return (
     <Dropdown
+      overlayClassName={darkMode ? "dark-mode" : ""}
       overlay={
-        <Menu>
-          <Menu.Item key="saveImage" onClick={saveImage}>
-            Save as Image
-          </Menu.Item>
-          <Menu.Item key="saveCSV" onClick={saveCSV}>
-            Save as CSV
-          </Menu.Item>
-          <a id="saveLink" href={graphImage}>
-            Save Data
-          </a>
-        </Menu>
+        <DropdownMenu
+          saveCSV={saveCSV}
+          saveImage={saveImage}
+          graphImage={graphImage}
+        />
       }
       trigger={["click"]}
       visible={menuOpen}

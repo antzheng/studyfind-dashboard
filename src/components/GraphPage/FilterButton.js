@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Button, Modal, Slider, Input, Tooltip } from "antd";
 import { FilterFilled } from "@ant-design/icons";
 
-const FilterButton = ({ minRank, maxRank, totalStudies }) => {
+const FilterButton = ({ darkMode, minRank, maxRank, totalStudies }) => {
   // -------------------------------------------------------------------
   // ------------------------------ state ------------------------------
   // -------------------------------------------------------------------
@@ -71,12 +71,19 @@ const FilterButton = ({ minRank, maxRank, totalStudies }) => {
         />
       </Tooltip>
       <Modal
+        className={
+          darkMode
+            ? "dark-mode graphpage-filter-modal"
+            : "graphpage-filter-modal"
+        }
         centered
         title="Filter Studies Queried"
         visible={modalOpen}
         onOk={goToVisualization}
         onCancel={closeModalHandler}
         zIndex={2000}
+        closable={false}
+        maskClosable={false}
       >
         <div className="graphpage-filter-input-row">
           <h3>Currently Viewing:</h3>

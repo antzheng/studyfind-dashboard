@@ -3,7 +3,7 @@ import { Modal, Collapse, Empty } from "antd";
 
 const { Panel } = Collapse;
 
-const ResultCard = ({ study }) => {
+const ResultCard = ({ darkMode, study }) => {
   // -------------------------------------------------------------------
   // ------------------------------ state ------------------------------
   // -------------------------------------------------------------------
@@ -22,6 +22,7 @@ const ResultCard = ({ study }) => {
         <span>{study.briefSummary.substring(0, 500) + "..."}</span>
       </div>
       <Modal
+        className={darkMode ? "dark-mode" : ""}
         centered
         title="Study Information"
         visible={modalOpen}

@@ -16,7 +16,24 @@ import {
 Chart.defaults.global.defaultFontFamily = "Avenir";
 Chart.defaults.global.defaultFontSize = 15;
 
+// specify graph type for chart.js
+const graphTypes = {
+  line: "line",
+  pie: "pie",
+  bar: "horizontalBar",
+  map: "choropleth",
+};
+
+// specify format functions for each graph
+const formatFunctions = {
+  line: formatLineChart,
+  pie: formatPieChart,
+  bar: formatBarChart,
+  map: formatWorldMap,
+};
+
 const Graph = ({
+  darkMode,
   ready,
   graph,
   info,
@@ -68,25 +85,12 @@ const Graph = ({
 
   // set up the chart on the canvas element when component is mounted
   useEffect(() => {
+    Chart.defaults.global.defaultFontColor = darkMode ? "#ebebeb" : "#3a3e48";
+
     if (chartRef.current) {
-      // specify graph type for chart.js
-      const graphTypes = {
-        line: "line",
-        pie: "pie",
-        bar: "horizontalBar",
-        map: "choropleth",
-      };
-
-      // specify format functions for each graph
-      const formatFunctions = {
-        line: formatLineChart,
-        pie: formatPieChart,
-        bar: formatBarChart,
-        map: formatWorldMap,
-      };
-
       // grab the formatted data
       const [numDisplayed, labels, dataset, options] = formatFunctions[graph](
+        darkMode,
         info.studies,
         graph === "map" ? "locationCountry" : dataType
       );
@@ -111,7 +115,7 @@ const Graph = ({
               const ctx = c.chart.ctx;
               ctx.save();
               ctx.globalCompositeOperation = "destination-over";
-              ctx.fillStyle = "white";
+              ctx.fillStyle = darkMode ? "#1c1e23" : "white";
               ctx.fillRect(0, 0, c.chart.width, c.chart.height);
               ctx.restore();
 
@@ -135,7 +139,7 @@ const Graph = ({
       // destroy canvas on component rerender
       return () => chart.destroy();
     }
-  }, [ready, graph, info, dataType]);
+  }, [ready, graph, info, dataType, darkMode]);
 
   // ------------------------------------------------------------------
   // ----------------------------- render -----------------------------
@@ -146,17 +150,20 @@ const Graph = ({
         <div className="graphpage-toprow-container">
           <div className="graphpage-toprow">
             <TitleDropdown
+              darkMode={darkMode}
               graph={graph}
               dataType={dataType}
               setDataType={setDataType}
             />
             <div className="navbar-space" />
             <FilterButton
+              darkMode={darkMode}
               minRank={minRank}
               maxRank={maxRank}
               totalStudies={info.totalStudies}
             />
             <ExportButton
+              darkMode={darkMode}
               graphImage={graphImage}
               graph={graph}
               dataType={dataType}

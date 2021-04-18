@@ -103,7 +103,7 @@ const sliceColors = (colors, data) => {
 };
 
 // format line chart data
-export const formatLineChart = (studies, dataType) => {
+export const formatLineChart = (darkMode, studies, dataType) => {
   let data = [];
   let title = "";
   let labels = [];
@@ -158,6 +158,11 @@ export const formatLineChart = (studies, dataType) => {
       ],
       yAxes: [
         {
+          gridLines: darkMode
+            ? {
+                color: "#272a31",
+              }
+            : {},
           scaleLabel: {
             display: true,
             labelString: yAxisLabel,
@@ -170,7 +175,7 @@ export const formatLineChart = (studies, dataType) => {
 };
 
 // format pie chart data
-export const formatPieChart = (studies, dataType) => {
+export const formatPieChart = (darkMode, studies, dataType) => {
   let data = [];
   let labels = [];
   let numDisplayed = 0;
@@ -202,7 +207,7 @@ export const formatPieChart = (studies, dataType) => {
 };
 
 // format bar chart data
-export const formatBarChart = (studies, dataType) => {
+export const formatBarChart = (darkMode, studies, dataType) => {
   let data = [];
   let title = "";
   let labels = [];
@@ -245,6 +250,11 @@ export const formatBarChart = (studies, dataType) => {
     scales: {
       xAxes: [
         {
+          gridLines: darkMode
+            ? {
+                color: "#272a31",
+              }
+            : {},
           scaleLabel: {
             display: true,
             labelString: xAxisLabel,
@@ -268,7 +278,7 @@ export const formatBarChart = (studies, dataType) => {
 };
 
 // format world map data
-export const formatWorldMap = (studies) => {
+export const formatWorldMap = (darkMode, studies) => {
   const [countryData, numDisplayed] = getLocationData(studies);
   const countries = ChartGeo.topojson.feature(
     topojson,
@@ -283,6 +293,7 @@ export const formatWorldMap = (studies) => {
       feature: d,
       value: countryData[d.properties.name] || 0,
     })),
+    ...(darkMode ? { outlineBorderColor: "#272a31" } : {}),
   };
 
   // specify the options
@@ -295,7 +306,7 @@ export const formatWorldMap = (studies) => {
       display: false,
     },
     scale: {
-      projection: "equalEarth",
+      projection: "naturalEarth1",
     },
     geo: {
       colorScale: {

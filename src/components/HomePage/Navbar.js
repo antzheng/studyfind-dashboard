@@ -1,7 +1,8 @@
 import React from "react";
-import Menu from "./Menu";
+import Brightness4Icon from "@material-ui/icons/Brightness4";
+import NightsStayIcon from "@material-ui/icons/NightsStay";
 
-const Navbar = () => {
+const Navbar = ({ darkMode, setDarkMode }) => {
   return (
     <div className="navbar">
       <div className="navbar-items">
@@ -9,7 +10,12 @@ const Navbar = () => {
           <h3>About</h3>
         </div>
         <div className="navbar-space" />
-        <Menu />
+        <div
+          className="dark-mode-toggle"
+          onClick={() => setDarkMode(!darkMode)}
+        >
+          {darkMode ? <Brightness4Icon /> : <NightsStayIcon />}
+        </div>
       </div>
     </div>
   );

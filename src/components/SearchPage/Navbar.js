@@ -1,10 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import Searchbar from "./Searchbar";
-import Menu from "./Menu";
+import Brightness4Icon from "@material-ui/icons/Brightness4";
+import NightsStayIcon from "@material-ui/icons/NightsStay";
 import StudyFindLogo from "./../../styles/assets/images/studyfind.png";
 
-const Navbar = ({ keywords, searchTerms }) => {
+const Navbar = ({ darkMode, setDarkMode, keywords, searchTerms }) => {
   // -------------------------------------------------------------------
   // ------------------------------ state ------------------------------
   // -------------------------------------------------------------------
@@ -34,7 +35,12 @@ const Navbar = ({ keywords, searchTerms }) => {
         <h2>StudyFind</h2>
         <Searchbar keywords={keywords} searchTerms={searchTerms} />
         <div className="searchpage-navbar-space-after" />
-        <Menu />
+        <div
+          className="dark-mode-toggle"
+          onClick={() => setDarkMode(!darkMode)}
+        >
+          {darkMode ? <Brightness4Icon /> : <NightsStayIcon />}
+        </div>
       </div>
     </div>
   );

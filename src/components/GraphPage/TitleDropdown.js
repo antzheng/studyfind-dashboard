@@ -10,7 +10,7 @@ const graphTitles = {
 
 const DropdownMenu = ({ dataType, setDataType }) => {
   return (
-    <Menu>
+    <Menu selectedKeys={[]}>
       {Object.entries(graphTitles)
         .filter(([key]) => key !== dataType)
         .map(([key, value]) => (
@@ -22,7 +22,7 @@ const DropdownMenu = ({ dataType, setDataType }) => {
   );
 };
 
-const TitleDropdown = ({ graph, dataType, setDataType }) => {
+const TitleDropdown = ({ darkMode, graph, dataType, setDataType }) => {
   // ------------------------------------------------------------------
   // ----------------------------- state ------------------------------
   // ------------------------------------------------------------------
@@ -50,6 +50,7 @@ const TitleDropdown = ({ graph, dataType, setDataType }) => {
     <h1 className="graphpage-title">
       {"Studies By "}
       <Dropdown
+        overlayClassName={darkMode ? "dark-mode" : ""}
         trigger={["click"]}
         visible={menuOpen}
         onVisibleChange={(status) => setMenuOpen(status)}
@@ -65,11 +66,13 @@ const TitleDropdown = ({ graph, dataType, setDataType }) => {
             ? {}
             : {
                 boxShadow: "0px 0px 0px 1px rgba(0,0,0,0.2)",
-                width: "200px",
+                width: "150px",
+                maxWidth: "150px",
+                minWidth: "150px",
                 position: "fixed",
               }
         }
-        placement="bottomCenter"
+        placement="bottomLeft"
       >
         <span className="graphpage-dropdown">
           {`${graph === "map" ? "Country" : graphTitles[dataType]} `}

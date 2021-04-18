@@ -6,7 +6,13 @@ import {
   getInfoFromResponse,
 } from "./../resources/utils/api";
 
-const SearchPage = ({ keywords, searchTerms, pageNumber }) => {
+const SearchPage = ({
+  darkMode,
+  setDarkMode,
+  keywords,
+  searchTerms,
+  pageNumber,
+}) => {
   // -------------------------------------------------------------------
   // ------------------------------ state ------------------------------
   // -------------------------------------------------------------------
@@ -50,8 +56,14 @@ const SearchPage = ({ keywords, searchTerms, pageNumber }) => {
 
   return (
     <>
-      <Navbar keywords={keywords} searchTerms={searchTerms.trim()} />
+      <Navbar
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+        keywords={keywords}
+        searchTerms={searchTerms.trim()}
+      />
       <Results
+        darkMode={darkMode}
         info={info}
         pageNumber={pageNumber}
         ready={ready}

@@ -9,7 +9,7 @@ import {
 
 const { Content } = Layout;
 
-const GraphPage = ({ searchTerms, minRank, maxRank }) => {
+const GraphPage = ({ darkMode, searchTerms, minRank, maxRank }) => {
   // ------------------------------------------------------------------
   // ----------------------------- state ------------------------------
   // ------------------------------------------------------------------
@@ -48,6 +48,7 @@ const GraphPage = ({ searchTerms, minRank, maxRank }) => {
       <Layout>
         <Content>
           <Graph
+            darkMode={darkMode}
             ready={ready}
             graph={graph}
             info={info}

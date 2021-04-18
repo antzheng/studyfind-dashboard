@@ -12,6 +12,7 @@ const App = () => {
   // -------------------------------------------------------------------
 
   const [keywords, setKeywords] = useState([]);
+  const [darkMode, setDarkMode] = useState(true);
 
   // ------------------------------------------------------------------
   // --------------------------- life-cycle ---------------------------
@@ -22,6 +23,11 @@ const App = () => {
     setKeywords(getKeywords());
   }, []);
 
+  // change body color based on light or dark mode
+  useEffect(() => {
+    document.body.style.backgroundColor = darkMode ? "#1c1e23" : "white";
+  }, [darkMode]);
+
   // ------------------------------------------------------------------
   // ----------------------------- render -----------------------------
   // ------------------------------------------------------------------
@@ -30,16 +36,24 @@ const App = () => {
     <HashRouter basename="/">
       <Switch>
         <>
-          <div className="ultra">
+          <div className={darkMode ? "ultra dark-mode" : "ultra"}>
             <Route
               exact
               path="/"
-              component={() => <HomePage keywords={keywords} />}
+              component={() => (
+                <HomePage
+                  darkMode={darkMode}
+                  setDarkMode={setDarkMode}
+                  keywords={keywords}
+                />
+              )}
             />
             <Route
               path="/search/:searchTerms/page/:pageNumber"
               component={({ match }) => (
                 <SearchPage
+                  darkMode={darkMode}
+                  setDarkMode={setDarkMode}
                   keywords={keywords}
                   searchTerms={match.params.searchTerms}
                   pageNumber={parseInt(match.params.pageNumber)}
@@ -50,6 +64,7 @@ const App = () => {
               path="/search/:searchTerms/visualize/minRank/:minRank/maxRank/:maxRank"
               component={({ match }) => (
                 <GraphPage
+                  darkMode={darkMode}
                   searchTerms={match.params.searchTerms}
                   minRank={parseInt(match.params.minRank)}
                   maxRank={parseInt(match.params.maxRank)}

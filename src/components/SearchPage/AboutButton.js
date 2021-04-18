@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Modal, Statistic, Row, Col } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 
-const AboutButton = ({ info, studies, pageNumber }) => {
+const AboutButton = ({ darkMode, info, studies, pageNumber }) => {
   // -------------------------------------------------------------------
   // ------------------------------ state ------------------------------
   // -------------------------------------------------------------------
@@ -24,6 +24,7 @@ const AboutButton = ({ info, studies, pageNumber }) => {
         About
       </Button>
       <Modal
+        className={darkMode ? "dark-mode" : ""}
         centered
         title="Search Results Summary"
         visible={modalOpen}
