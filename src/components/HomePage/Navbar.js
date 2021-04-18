@@ -7,7 +7,9 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     <div className="navbar">
       <div className="navbar-items">
         <div className="navbar-about">
-          <h3>About</h3>
+          <h3 onClick={() => (window.location.href = "https://studyfind.org/")}>
+            About
+          </h3>
         </div>
         <div className="navbar-space" />
         <div
